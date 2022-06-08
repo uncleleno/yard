@@ -1,0 +1,46 @@
+buildscript {
+    ext.kotlin_version = '1.6.20'
+    ext {
+        kotlin_version = '1.6.20'
+        minSdkVersion   = 24                // or higher
+        compileSdkVersion   = 31                // or higher
+        targetSdkVersion    = 31                // or higher
+        appCompatVersion    = "1.1.0"           // or higher
+        playServicesLocationVersion = "17.0.0"  // or higher
+        removeBackgroundGeolocationDebugSoundsInRelease = true
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.10'
+
+        // Add the dependency for the Firebase Performance Monitoring plugin
+        classpath 'com.google.firebase:perf-plugin:1.4.1'
+        // Add the Firebase Crashlytics Gradle plugin
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
